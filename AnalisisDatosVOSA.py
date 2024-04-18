@@ -16,10 +16,11 @@ import matplotlib.pyplot as plt
 #Usamos numpy --> Polyfit (deg 1)
 
 #Leer archivo de datos y extraer masas (Voy a intentar usar pandas)
-def readVOSA(FolderName):
-    path = 'C:/Users/Usuario/Desktop/Proyecto Astro/Resultados/'
+#Extraer los datos en formato .dat"
+#Comprobar que la ubicación y el nombre siempre coincide
+def readVOSA(FolderName, path):
 
-    archivo = open(path + FolderName + '/results/bestfitp.dat' , 'r')
+    archivo = open(path + '/' + FolderName + '/results/bestfitp.dat' , 'r')
     lines = archivo.readlines()
 
     header = lines[2].split()[1:]
@@ -95,8 +96,17 @@ def plotAdj(X, Y, gamma, gamma_err, pol1d_fn):
     
 #Lectura de datos
 
-Folder = 'NGC2099_HMag'
-datos = readVOSA(Folder)
+Folder = input('Folder name: ')
+ChangePath = input('Input path? (Y o N): ')
+while ChangePath != 'N' and ChangePath != 'Y':
+    ChangePath = input('Input path? (Y o N): ')
+    
+if ChangePath == 'Y':
+    Path = input('Path: ')
+else:
+    Path = 'C:/Users/Usuario/Desktop/Proyecto Astro/Resultados'
+
+datos = readVOSA(Folder, Path)
 
 #Manejo de datos
 #Creamos subsets de las masas (dos cálculos distintos)
