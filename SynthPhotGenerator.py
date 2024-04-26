@@ -10,7 +10,7 @@ import numpy as np
 import gaiaxpy as gxpy 
 import pandas as pd 
 
-DocName = 'VOSANGC2099HM'
+DocName = 'VOSAMMNGC2099'
 DocFolder = 'Datos'
 DocFormat = 'txt'
 
@@ -42,15 +42,17 @@ for name in names:
     for i in data.loc[name]:
         line.append(i)
     newdata.append(line)
-    
-    for filt in filterlist:
-        line = [name]
-        for i in data.loc[name]:
-            line.append(i)
-        line[5] = filterbase + filt
-        line[6] = Synth_phot.loc[name]['Jpas_mag_' + filt]
-        newdata.append(line)
-        
+    try:
+        for filt in filterlist:
+            line = [name]
+            for i in data.loc[name]:
+                line.append(i)
+            line[5] = filterbase + filt
+            line[6] = Synth_phot.loc[name]['Jpas_mag_' + filt]
+            newdata.append(line)
+    except:
+            print('No synthetic photometry data for {0}'.format(name))
+            
 newfilename = DocName + 'SPhot' + 'JPAS'
 
 newfile = open(DocFolder + '/' + newfilename + '.txt', 'w')
