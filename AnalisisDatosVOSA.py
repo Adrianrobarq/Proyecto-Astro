@@ -16,11 +16,10 @@ import matplotlib.pyplot as plt
 #Usamos numpy --> Polyfit (deg 1)
 
 #Leer archivo de datos y extraer masas (Voy a intentar usar pandas)
-#Extraer los datos en formato .dat"
-#Comprobar que la ubicación y el nombre siempre coincide
-def readVOSA(FolderName, path):
+def readVOSA(FolderName):
+    path = 'C:/Users/Usuario/Desktop/Proyecto Astro/Resultados/'
 
-    archivo = open(path + '/' + FolderName + '/results/bestfitp.dat' , 'r')
+    archivo = open(path + FolderName + '/results/bestfitp.dat' , 'r')
     lines = archivo.readlines()
 
     header = lines[2].split()[1:]
@@ -96,29 +95,26 @@ def plotAdj(X, Y, gamma, gamma_err, pol1d_fn):
     
 #Lectura de datos
 
-Folder = input('Folder name: ')
-ChangePath = input('Input path? (Y o N): ')
-while ChangePath != 'N' and ChangePath != 'Y':
-    ChangePath = input('Input path? (Y o N): ')
-    
-if ChangePath == 'Y':
-    Path = input('Path: ')
-else:
-    Path = 'C:/Users/Usuario/Desktop/Proyecto Astro/Resultados'
+Folder1 = 'NGC2099_MMag_new'
+Folder2 = 'NGC2099_HMag_new'
 
-datos = readVOSA(Folder, Path)
+datos1 = readVOSA(Folder1)
+datos2 = readVOSA(Folder2)
+
+datos = pd.concat([datos1,datos2])
 
 #Manejo de datos
 #Creamos subsets de las masas (dos cálculos distintos)
 Mass1 = datos['M1']
 Mass2 = datos['M2']
 
+
 #Limpiamos los datos
 Mass1c = pd.to_numeric(Mass1, errors ='coerce').dropna()
 Mass2c = pd.to_numeric(Mass2, errors ='coerce').dropna()
 
 #Creamos los bins
-binwide = 10
+binwide = 20
 
 BinsM1 = setBins(Mass1c, binwide)
 BinsM2 = setBins(Mass2c, binwide)
